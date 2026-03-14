@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Kitchen Weather Station</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+<body>
+    <div id="weather-container">
+        <!-- ERROR STATE HANDLER -->
+    	{% if not w or w.cod %}
+    	<div class="error-banner">
+        	<h3>⚠️ Connection Issue</h3>
+        	<p>Could not fetch weather data. Checking Wi-Fi...</p>
+        	<button class="refresh-btn" onclick="location.reload()">Try Again</button>
+    	</div>
+    	{% else %}
+    	
+        <!-- Current Weather (Always Visible) -->
+        <div class="current-box">
+    		<h1>{{ w.current.temp | round }}°</h1>
+    		<p>{{ w.current.weather[0].main }} - Local Station</p>
+    		<p>Feels like: {{ w.current.feels_like | round }}°</p>
+		</div>
+
+        <hr>
+
+        <!-- Toggle Buttons -->
+        <div class="controls">
+            <button onclick="showView('hourly')">Hourly</button>
+            <button onclick="showView('daily')">Daily</button>
+        </div>
+
+        <!-- Hourly View -->
+        <div id="hourly-view" class="view">
+    		<h3>Next 8 Hours</h3>
+    		<div class="scroll-row" style="display: flex; overflow-x: auto; gap: 20px;">
+        		{% for hour in w.hourly[:8] %}
+        		<div class="hour-card">
+            		<!-- Convert Unix timestamp to readable Hour -->
+            		<div>{{ hour.dt | datetimeformat('%H:%M') }}</div>
+            		<img src="http://openweathermap.org/img/wn/{{ hour.weather[0].icon }}.png">
+            		<strong>{{ hour.temp | round }}°</strong>
+        		</div>
+        		{% endfor %}
+    		</div>
+		</div>
+
+        <!-- Daily View (Hidden by default) -->
+        <div id="daily-view" class="view" style="display:none;">
+        	{% for day in w.daily[:5] %}
+        	<div class="day-row">
+            	<span style="width: 50px;">{{ day.dt | datetimeformat('%a') }}</span>
+            	<!-- Using the @2x suffix for higher quality icons -->
+            	<img class="daily-icon" src="http://openweathermap.org/img/wn/{{ day.weather[0].icon }}@2x.png">
+            	<div class="temp-range">
+                	<span>{{ day.temp.max | round }}°</span>
+                	<span class="temp-min">{{ day.temp.min | round }}°</span>
+            	</div>
+        	</div>
+        	{% endfor %}
+    	</div>
+
+		<button id="refresh-button" class="refresh-btn" onclick="updateWeather()">
+    		<span class="btn-text">Refresh Forecast</span>
+		</button>
+		{% endif %}
+    </div>
+
+    <script>
+        function showView(viewName) {
+            document.getElementById('hourly-view').style.display = (viewName === 'hourly') ? 'block' : 'none';
+            document.getElementById('daily-view').style.display = (viewName === 'daily') ? 'block' : 'none';
+        }
+
+        async function updateWeather() {
+    		const response = await fetch('/api/weather');
+    		const data = await response.json();
+    		
+    		// Update the UI elements manually
+    		document.querySelector('.current-box h1').innerText = Math.round(data.current.temp) + "°";
+    		console.log("Weather Updated!");
+		}
+
+		async function updateWeather() {
+    		const btn = document.getElementById('refresh-button');
+    		
+    		// 1. Start Loading State
+    		btn.classList.add('loading');
+    		btn.disabled = true; // Prevent double-tapping
+		
+    		try {
+        		const response = await fetch('/api/weather');
+        		const data = await response.json();
+        		
+        		// 2. Update UI (add your manual updates here)
+        		document.querySelector('.current-box h1').innerText = Math.round(data.current.temp) + "°";
+        		
+        		// Optional: reload page to refresh everything if you prefer
+        		// location.reload(); 
+        		
+    		} catch (error) {
+        		console.error("Failed to refresh:", error);
+    		} finally {
+        		// 3. Stop Loading State
+        		btn.classList.remove('loading');
+        		btn.disabled = false;
+    		}
+		}
+    </script>
+</body>
+</html>
