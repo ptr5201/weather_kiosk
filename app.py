@@ -1,6 +1,8 @@
 import requests
+import os
 from flask import Flask, render_template
 from datetime import datetime
+from dotenv import load_dotenv
 
 app = Flask(__name__)
 
@@ -9,7 +11,7 @@ def datetimeformat(value, format='%H:%M'):
     return datetime.fromtimestamp(value).strftime(format)
 
 # --- CONFIGURATION ---
-API_KEY = "39de92c6aab0b2572a411016783858a9"
+API_KEY = os.getenv("OPENWEATHER_API_KEY")
 LAT = "43.14"   # Your Latitude (e.g., Kitchener/Waterloo)
 LON = "-77.85"  # Your Longitude
 UNITS = "imperial" # Use 'imperial' for Fahrenheit
