@@ -11,4 +11,4 @@ cd /home/ptr5201/projects/weather_kiosk
 sleep 5
 
 # 4. Launch Chromium in kiosk mode
-chromium-browser --kiosk --incognito --noerrdialogs --disable-infobars http://localhost:5000
+chromium --kiosk --incognito --noerrdialogs --disable-infobars --password-store=basic http://localhost:5000
