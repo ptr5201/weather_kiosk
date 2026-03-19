@@ -14,10 +14,17 @@
         </div>
         {% else %}
 
-        <div class="current-box">
-            <h1>{{ w.current.temp | round }}°</h1>
-            <p>{{ w.current.weather[0].main }} - Local Station</p>
-            <p>Feels like: {{ w.current.feels_like | round }}°</p>
+        <div class="current-header">
+            <div class="main-temp">
+                <h1>{{ w.current.temp | round }}°</h1>
+                <p class="feels-like">Feels: {{ w.current.feels_like | round }}°</p>
+            </div>
+    
+            <div class="current-stats">
+                <div class="stat-item">💨 {{ w.current.wind_speed | round }} mph</div>
+                <div class="stat-item">💧 {{ w.current.humidity }}% Humidity</div>
+                <div class="stat-item">☀️ UV Index: {{ w.current.uvi | round }}</div>
+            </div>
         </div>
 
         <hr>
@@ -57,10 +64,15 @@
         </div>
 
         <div class="footer-controls">
+            <div class="sun-times">
+                <span>🌅 {{ w.current.sunrise | datetimeformat('%H:%M') }}</span>
+                <span class="sun-divider">|</span>
+                <span>🌇 {{ w.current.sunset | datetimeformat('%H:%M') }}</span>
+            </div>
             <button id="refresh-button" class="refresh-btn" onclick="updateWeather()">
                 <span class="btn-text">Refresh Forecast</span>
             </button>
-            <div id="last-updated">Loading timestamp...</div>
+            <div id="last-updated">Updated: --:--</div>
         </div>
         {% endif %}
     </div>

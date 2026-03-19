@@ -19,10 +19,54 @@ html, body {
 }
 
 /* --- Current Weather Section --- */
-.current-box {
+/* --- New Header Split --- */
+.current-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 20px;
     flex: 0 0 auto;
-    text-align: center;
 }
+
+.main-temp h1 {
+    font-size: 4rem;
+    margin: 0;
+    line-height: 1;
+}
+
+.feels-like {
+    font-size: 0.9rem;
+    color: #888;
+    margin: 5px 0 0 0;
+}
+
+.current-stats {
+    text-align: left;
+    border-left: 2px solid #333;
+    padding-left: 20px;
+}
+
+.stat-item {
+    font-size: 1rem;
+    margin-bottom: 5px;
+    color: #ddd;
+}
+
+/* --- Sunrise/Sunset Footer --- */
+.sun-times {
+    font-size: 1rem;
+    color: #ffcc00; /* Warm gold color */
+    margin-bottom: 10px;
+    font-weight: bold;
+}
+
+.sun-divider {
+    color: #444;
+    margin: 0 10px;
+}
+
+/* Ensure the container still fits vertically */
+.current-box { display: none; } /* We replaced this with .current-header */
 
 .current-box h1 {
     font-size: 3.5rem;
