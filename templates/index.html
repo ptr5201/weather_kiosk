@@ -84,10 +84,10 @@
             document.getElementById('daily-view').style.display = (viewName === 'daily') ? 'block' : 'none';
         }
 
-        // 2. Self-Healing: Refresh page every 10 minutes to fix hangs/API errors
+        // 2. Self-Healing: Refresh page every 20 minutes to fix hangs/API errors
         setTimeout(function() {
             location.reload();
-        }, 600000);
+        }, 1200000);
 
         // 3. Set "Last Updated" timestamp on load
         document.addEventListener("DOMContentLoaded", function() {
