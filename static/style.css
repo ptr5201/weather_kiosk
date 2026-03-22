@@ -16,6 +16,8 @@ html, body {
     height: 100%;
     padding: 15px;
     box-sizing: border-box;
+    justify-content: space-between;
+    overflow: hidden;
 }
 
 /* --- Current Weather Section --- */
@@ -25,14 +27,15 @@ html, body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 30px 25px; /* More "breathing room" */
-    flex: 0 0 auto;
+    padding: 10px 20px;
+    flex: 0 1 auto;
     background: linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
+    min-height: auto;
 }
 
 /* 2. Boost the Main Temperature */
 .main-temp h1 {
-    font-size: 4rem; /* Triple the size from your photo */
+    font-size: 3rem;
     margin: 0;
     line-height: 0.8;
     letter-spacing: -4px;
@@ -42,7 +45,7 @@ html, body {
 /* 3. Fix the "Tiny Text" Condition Description */
 /* Note: Ensure this class matches what you have in your HTML (see next msg) */
 .condition-text {
-    font-size: 2.2rem; /* Massive boost for readability */
+    font-size: 1.5rem; /* Massive boost for readability */
     color: #ffcc00;    /* Ogden Gold */
     margin: 10px 0;
     text-transform: capitalize;
@@ -128,6 +131,8 @@ hr {
     overflow: hidden;
     display: flex;
     flex-direction: column;
+    overflow-y: auto;
+    min-height: 0;
 }
 
 .view h3 {
@@ -211,7 +216,7 @@ hr {
 }
 
 .condition-text-daily {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: #888;
     margin-top: -2px;
 }
@@ -228,7 +233,7 @@ hr {
 }
 
 .condition-text-hourly {
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     color: #aaa;
     margin-bottom: 2px;
     text-transform: capitalize;
