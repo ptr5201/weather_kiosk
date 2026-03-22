@@ -179,8 +179,9 @@ hr {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 4px 5px;
+    padding: 2px 0;
     border-bottom: 1px solid #333;
+    flex: 1;
 }
 
 .day-row:last-child {
@@ -194,15 +195,16 @@ hr {
 }
 
 #daily-view {
-    padding: 5px 10px;
+    padding: 0px 10px;
     display: flex;
     flex-direction: column;
-    justify-content: space-around;
+    justify-content: space-evenly;
+    height: 100%
 }
 
 .daily-icon {
-    width: 35px; /* Slightly smaller to fit without scrolling */
-    height: 35px;
+    width: 28px; /* Slightly smaller to fit without scrolling */
+    height: 28px;
     margin: 0;
     filter: drop-shadow(0 0 5px rgba(255,255,255,0.2));
 }
