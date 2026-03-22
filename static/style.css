@@ -20,36 +20,51 @@ html, body {
 
 /* --- Current Weather Section --- */
 /* --- New Header Split --- */
+/* 1. Give the header more presence */
 .current-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 30px 25px; /* More "breathing room" */
     flex: 0 0 auto;
+    background: linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
 }
 
+/* 2. Boost the Main Temperature */
 .main-temp h1 {
-    font-size: 4rem;
+    font-size: 4rem; /* Triple the size from your photo */
     margin: 0;
-    line-height: 1;
+    line-height: 0.8;
+    letter-spacing: -4px;
+    font-weight: 700;
 }
 
-.feels-like {
-    font-size: 0.9rem;
+/* 3. Fix the "Tiny Text" Condition Description */
+/* Note: Ensure this class matches what you have in your HTML (see next msg) */
+.condition-text {
+    font-size: 2.2rem; /* Massive boost for readability */
+    color: #ffcc00;    /* Ogden Gold */
+    margin: 10px 0;
+    text-transform: capitalize;
+    font-weight: 300;
+}
+
+/* 4. Improve the "Feels Like" and Pollen row */
+.feels-like-small {
+    font-size: 1.2rem;
     color: #888;
-    margin: 5px 0 0 0;
 }
 
+/* 5. Make the side stats (Humidity, etc.) more readable */
 .current-stats {
     text-align: left;
-    border-left: 2px solid #333;
-    padding-left: 20px;
+    border-left: 3px solid #007bff; /* Changed from #333 to a blue accent */
+    padding-left: 30px;
 }
 
 .stat-item {
-    font-size: 1rem;
-    margin-bottom: 5px;
-    color: #ddd;
+    font-size: 1.3rem;  /* Boosted from 1rem */
+    margin-bottom: 8px;
 }
 
 /* --- Sunrise/Sunset Footer --- */
@@ -69,7 +84,7 @@ html, body {
 .current-box { display: none; } /* We replaced this with .current-header */
 
 .current-box h1 {
-    font-size: 3.5rem;
+    font-size: 0.9rem;
     margin: 0;
     color: #ffffff;
 }
@@ -212,11 +227,22 @@ hr {
     color: #aaa;
 }
 
-.condition-text {
+.condition-text-hourly {
     font-size: 0.7rem;
     color: #aaa;
     margin-bottom: 2px;
     text-transform: capitalize;
+}
+
+.pollen-tag {
+    color: #a3cfbb; /* Subtle green for nature/pollen */
+    font-weight: bold;
+}
+
+.feels-like-small {
+    font-size: 0.9rem;
+    color: #888;
+    margin-top: 5px;
 }
 
 /* --- Footer Area --- */

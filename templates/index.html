@@ -17,7 +17,11 @@
         <div class="current-header">
             <div class="main-temp">
                 <h1>{{ w.current.temp | round }}°</h1>
-                <p class="feels-like">Feels: {{ w.current.feels_like | round }}°</p>
+                <p class="condition-text">{{ w.current.weather[0].description | capitalize }}</p>
+                <p class="feels-like-small">
+                    Feels: {{ w.current.feels_like | round }}° | 
+                    <span class="pollen-tag">🤧 Pollen: {{ pollen }}</span>
+                </p>
             </div>
     
             <div class="current-stats">
@@ -41,7 +45,7 @@
                 <div class="hour-card">
                     <div>{{ hour.dt | datetimeformat('%H:%M') }}</div>
                     <img src="http://openweathermap.org/img/wn/{{ hour.weather[0].icon }}.png">
-		    <div class="condition-text">{{ hour.weather[0].main }}</div> <strong>{{ hour.temp | round }}°</strong>
+		    <div class="condition-text-hourly">{{ hour.weather[0].main }}</div> <strong>{{ hour.temp | round }}°</strong>
                 </div>
                 {% endfor %}
             </div>
