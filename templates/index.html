@@ -23,6 +23,11 @@
                     <span class="pollen-tag">🤧 Pollen: {{ pollen }}</span>
                 </p>
             </div>
+
+            <div class="current-datetime">
+                <div id="current-date"></>
+                <div id="current-time></>
+            </div>
     
             <div class="current-stats">
                 <div class="stat-item">💨 {{ w.current.wind_speed | round }} mph</div>
@@ -76,7 +81,7 @@
             <button id="refresh-button" class="refresh-btn" onclick="updateWeather()">
                 <span class="btn-text">Refresh Forecast</span>
             </button>
-            <div id="last-updated">Updated: --:--</div>
+            <div id="last-updated">Weather updated: --:--</div>
         </div>
         {% endif %}
     </div>
@@ -93,14 +98,50 @@
             location.reload();
         }, 600000);
 
-        // 3. Set "Last Updated" timestamp on load
-        document.addEventListener("DOMContentLoaded", function() {
-            const now = new Date();
-            const timeString = now.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
-            document.getElementById('last-updated').innerText = "Updated: " + timeString;
+        // 3. Eastern Time Clock
+        const easternDateFormatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/New_York',
+            weekday: 'short',
+            month: 'short',
+            day: 'numeric'
         });
 
-        // 4. Manual API Update
+        const easternTimeFormatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/New_York',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+
+        // 4. Weather Update Timestamp
+        const updateTimestampFormatter = new Intl.DateTimeFormat('en-US', {
+            timeZone: 'America/New_York',
+            hour: 'numeric',
+            minute: '2-digit',
+            hour12: true
+        });
+
+        function updateClock() {
+            const now = new Date();
+
+            document.getElementById('current-date').textContent =
+                easternDateFormatter.format(now);
+
+            document.getElementById('current-time').textContent =
+                easternTimeFormatter.format(now);
+        }
+
+        // 5. Initialize Clock and Weather Update Timestamp
+	document.addEventListener("DOMContentLoaded", function() {
+        updateClock();
+
+        document.getElementById('last-updated').textContent = "Weather updated: " + updateTimestampFormatter.format(new Date());
+
+        // Update the clock once per second.
+        setInterval(updateClock, 1000);
+        });
+
+        // 6. Manual API Update
         async function updateWeather() {
             const btn = document.getElementById('refresh-button');
             btn.classList.add('loading');

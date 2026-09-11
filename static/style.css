@@ -19,15 +19,39 @@ html, body {
 
 /* --- Current Weather Section --- */
 /* --- New Header Split --- */
-/* 1. Give the header more presence */
+/* Three column layout: current weather, date and time, weather stats */
 .current-header {
-    display: flex;
-    justify-content: space-between;
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
     align-items: center;
     padding: 10px 20px;
     flex: 0 1 auto;
     background: linear-gradient(180deg, #1a1a1a 0%, #121212 100%);
     min-height: auto;
+}
+
+.main-temp {
+    justify-self: start;
+}
+
+/* --- Centered Date and Time --- */
+.current-datetime {
+    justify-self: center;
+    text-align: center;
+    white-space: nowrap;
+}
+
+#current-date {
+    font-size: 1rem;
+    color: #aaa;
+    margin-bottom: 4px;
+}
+
+#current-time {
+    font-size: 2.2rem;
+    line-height: 1;
+    font-weight: 700;
+    color: #fff;
 }
 
 /* 2. Boost the Main Temperature */
@@ -57,6 +81,7 @@ html, body {
 
 /* 5. Make the side stats (Humidity, etc.) more readable */
 .current-stats {
+    justify-self: end;
     text-align: left;
     border-left: 3px solid #007bff; /* Changed from #333 to a blue accent */
     padding-left: 30px;
