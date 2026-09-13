@@ -19,35 +19,37 @@ UNITS = "imperial" # Use 'imperial' for Fahrenheit
 # Global variables to hold the last successful weather data
 last_weather_cache = None
 
-def fetch_pollen_data():
-    url = f"https://air-quality-api.open-meteo.com/v1/air-quality?latitude={LAT}&longitude={LON}&current=alder_pollen,birch_pollen,grass_pollen,mugwort_pollen,olive_pollen,ragweed_pollen&timezone=auto"
+def fetch_aqi_data():
+    url = f"https://air-quality-api.open-meteo.com/v1/air-quality?latitude={LAT}&longitude={LON}&current=us_aqi&timezone=auto"
 
     try:
         r = requests.get(url, timeout=10)
         r.raise_for_status()
         data = r.json().get('current', {})
-        
-        # Using .get(key, 0) isn't enough because the key might exist but be None.
-        # This list comprehension ensures every value is at least 0.
-        pollen_fields = [
-            'alder_pollen', 'birch_pollen', 'grass_pollen', 
-            'mugwort_pollen', 'olive_pollen', 'ragweed_pollen'
-        ]
+        aqi = data.get('us_aqi')
 
-        pollen_values = [data.get(field) if data.get(field) is not None else 0 for field in pollen_fields]
+        if aqi is None:
+            return None
 
-        max_pollen = max(pollen_values)
-        return format_pollen_risk(max_pollen)
+        return round(aqi)
     except Exception as e:
-        print(f"Pollen Error: {e}")
-        return "N/A"
+        print(f"AQI Error: {e}")
+        return None
 
-def format_pollen_risk(value):
-    # Rough grains/m^3 scale for a "General" label
-    if value < 10: return "Low"
-    if value < 50: return "Med"
-    if value < 150: return "High"
-    return "Very High"
+def format_aqi(value):
+    if value is None:
+        return "N/A"
+    if value <= 50:
+        return f"{value} Good"
+    if value <= 100:
+        return f"{value} Moderate"
+    if value <= 150:
+        return f"{value} Unhealthy for Sensitive Groups"
+    if value <= 200:
+        return f"{value} Unhealthy"
+    if value <= 300:
+        return f"{value} Very Unhealthy"
+    return f"{value} Hazardous"
 
 def get_weather():
     global last_weather_cache
@@ -60,10 +62,10 @@ def get_weather():
         response.raise_for_status()
         weather_data = response.json()
 
-        pollen = fetch_pollen_data()
-        
-        if pollen:
-            weather_data['pollen'] = pollen
+        # AQI is supplemental data. If it fails, the main weather
+        # request should still succeed.
+        aqi = fetch_aqi_data()
+        weather_data['aqi'] = format_aqi(aqi)
 
         #2. Success! Update the RAM cache
         last_weather_cache = weather_data
@@ -84,10 +86,8 @@ def home():
         # 2. Fetch the data
         data = get_weather()
         
-        pollen_data = data['pollen']
-
         # 3. Pass data to the HTML template
-        return render_template('index.html', w=data, pollen=pollen_data)
+        return render_template('index.html', w=data)
     except Exception as e:
         return f"Error fetching weather: {e}"
 

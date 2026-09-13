@@ -21,8 +21,8 @@
                 <h1>{{ w.current.temp | round }}°</h1>
                 <p class="condition-text">{{ w.current.weather[0].description | capitalize }}</p>
                 <p class="feels-like-small">
-                    Feels: {{ w.current.feels_like | round }}° | 
-                    <span class="pollen-tag">🤧 Pollen: {{ pollen }}</span>
+                    Feels: {{ w.current.feels_like | round }}° |
+                    <span class="aqi-tag">🌿 AQI: {{ w.aqi }}</span>
                 </p>
             </div>
 
@@ -39,6 +39,13 @@
         </div>
 
         <hr>
+
+        {% if w.alerts %}
+        <div class="weather-alert">
+            <strong>⚠️ {{ w.alerts[0].event }}</strong>
+            <span>{{ w.alerts[0].sender_name }}</span>
+        </div>
+        {% endif %}
 
         <div class="controls">
             <button onclick="showView('hourly')">Hourly</button>

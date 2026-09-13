@@ -272,9 +272,37 @@ hr {
     text-transform: capitalize;
 }
 
-.pollen-tag {
-    color: #a3cfbb; /* Subtle green for nature/pollen */
+.aqi-tag {
+    color: #a3cfbb;
     font-weight: bold;
+}
+
+.precip-prob {
+    font-size: 0.75rem;
+    color: #78b9ff;
+    margin-top: 2px;
+}
+
+.weather-alert {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    margin: 0 10px 5px 10px;
+    padding: 6px 10px;
+    background-color: #5a3d00;
+    border: 1px solid #c58a00;
+    border-radius: 8px;
+    color: #fff;
+    font-size: 0.85rem;
+}
+
+.weather-alert strong {
+    color: #ffcc00;
+}
+
+.weather-alert span {
+    color: #ddd;
 }
 
 .feels-like-small {
