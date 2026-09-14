@@ -60,7 +60,7 @@
                     <div>{{ hour.dt | datetimeformat('%H:%M') }}</div>
                     <img src="http://openweathermap.org/img/wn/{{ hour.weather[0].icon }}.png">
 		    <div class="condition-text-hourly">{{ hour.weather[0].main }}</div> <strong>{{ hour.temp | round }}°</strong>
-		    <div class="precip-prob">🌧 {{ (hour.pop * 100) | round }}%</div>
+		    <div class="precip-prob">🌧 {{ (hour['pop'] * 100) | round }}%</div>
                 </div>
                 {% endfor %}
             </div>
