@@ -1,5 +1,6 @@
 import requests
 import os
+import time
 from flask import Flask, render_template
 from datetime import datetime
 from dotenv import load_dotenv
@@ -62,6 +63,12 @@ def get_weather():
         response.raise_for_status()
         weather_data = response.json()
 
+        # Remove weather alerts that have already expired
+        current_time = int(time.time())
+        weather_data['alerts'] = [
+                alert for alert in weather_data.get('alerts', []) if alert.get('end', 0) > current_time
+                ]
+
         # AQI is supplemental data. If it fails, the main weather
         # request should still succeed.
         aqi = fetch_aqi_data()
@@ -75,6 +82,12 @@ def get_weather():
         # 3. If it fails, check if we have a RAM backup
         if last_weather_cache:
             print("Using RAM cache...")
+
+            # Remove expired alerts from cached weather data too.
+            current_time = int(time.time())
+            last_weather_cache['alerts'] = [
+                    alert for alert in last_weather_cache.get('alerts', []) if alert.get('end', 0) > current_time
+            ]
             return last_weather_cache
         else:
             # Only shows error if we've NEVER had a successful fetch since boot
